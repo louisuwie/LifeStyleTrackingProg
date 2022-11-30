@@ -466,16 +466,23 @@ public class TrackerGUI {
                 if (cmdList.getSelectedItem().equals(cmdActions[0])) {
                     text1.setText("Add Food");
                     text2.setText("Calories Involved");
+                    name.setText("");
+                    calories.setText("");
                 } else if (cmdList.getSelectedItem().equals(cmdActions[1])) {
                     text1.setText("Add Activity");
                     text2.setText("Calories Involved");
+                    name.setText("");
+                    calories.setText("");
                 } else if (cmdList.getSelectedItem().equals(cmdActions[2])) {
                     text1.setText("Food Name");
                     text2.setText("Servings");
+                    name.setText("");
+                    calories.setText("");
                 } else if (cmdList.getSelectedItem().equals(cmdActions[3])) {
                     text1.setText("Activity Name");
                     text2.setText("Hours");
-
+                    name.setText("");
+                    calories.setText("");
                 }
             }
         });
