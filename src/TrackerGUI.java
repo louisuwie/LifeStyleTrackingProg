@@ -25,7 +25,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class TrackerGUI {
+
+    private String x;
+
     public TrackerGUI(String a) {
+
 
         /**
          * when GUI is entered in the console, it creates a new instance
@@ -46,33 +50,38 @@ public class TrackerGUI {
         String[] cmdActions = {"Add Food", "Add Activity", "Eat Food", "Perform Activity"};
 
         /** Creates the GUI.
-         *
+
          * JFrames, JButtons, JLabels, JPanels, and
          * other visual elements that the program uses.
          */
-
 
         Font typedText = new Font("Verdana", Font.PLAIN, 12);
         Font hintText = new Font("Verdana", Font.ITALIC, 12);
         Font uiText = new Font("Helvetica", Font.PLAIN, 14);
 
         JFrame ui = new JFrame();
+
         JButton cmd = new JButton();
         JButton report = new JButton();
         JButton edit = new JButton();
+        JButton view = new JButton();
+
         JTextField name = new JTextField();
         JTextField calories = new JTextField();
+
         JLabel ann = new JLabel("---", SwingConstants.CENTER);
         JLabel text1 = new JLabel("", SwingConstants.CENTER);
         JLabel text2 = new JLabel("", SwingConstants.CENTER);
+
         JComboBox cmdList = new JComboBox(cmdActions);
+
         JPanel mainLayout = new JPanel();
         JPanel buttonLayout = new JPanel();
         Border margins = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 
-        ui.setSize(600, 200);
+        ui.setSize(600, 300);
         ui.setTitle("Welcome to " + a + "'s LifeStyle Tracker");
-        ui.setLayout(new FlowLayout());
+        ui.setLayout(new GridLayout(2,1));
         ui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         ui.setFocusable(true);
@@ -81,6 +90,8 @@ public class TrackerGUI {
         cmd.setSize(100, 100);
 
         report.setText("Report");
+
+        view.setText("View Contents");
 
         edit.setText("Edit Contents");
 
@@ -95,27 +106,49 @@ public class TrackerGUI {
         text1.setText("Add Food");
         text2.setText("Calories Involved");
 
-        mainLayout.setLayout(new GridLayout(5, 2));
+        mainLayout.setLayout(new GridLayout(4, 2));
 
         mainLayout.add(text1);
         mainLayout.add(name);
+
         mainLayout.add(text2);
         mainLayout.add(calories);
-        mainLayout.add(ann);
 
-        buttonLayout.setLayout(new GridLayout(1, 1));
+        mainLayout.add(ann);
+        mainLayout.add(report);
+
+        mainLayout.add(edit);
+        mainLayout.add(view);
+
+        buttonLayout.setLayout(new GridLayout(3, 1));
         buttonLayout.add(cmd);
         buttonLayout.add(cmdList);
 
-        mainLayout.add(report);
-        mainLayout.add(buttonLayout);
-        mainLayout.add(edit);
-
-        mainLayout.setBorder(margins);
-
         ui.add(mainLayout);
+        ui.add(buttonLayout);
         ui.setVisible(true);
         ui.setLocationRelativeTo(null);
+
+        /**
+         * 'items' JFrame is for the 'view' JButton.
+         * It creates a frame that enables the user to see
+         * what He/she adds into the list, on real-time.
+         */
+
+        JFrame items = new JFrame();
+        JLabel itemsRecord = new JLabel(trackerConsole.report(), SwingConstants.CENTER);
+        JButton close = new JButton();
+
+        itemsRecord.setFont(uiText);
+
+        items.setLayout(new FlowLayout());
+
+        close.setText("Close");
+
+        items.add(itemsRecord);
+        items.add(close);
+        items.setSize(350,900);
+        items.setLocationRelativeTo(ui);
 
         /**
          * This 'cmd' Action Listener is the main button that
@@ -162,6 +195,7 @@ public class TrackerGUI {
                                 JOptionPane.showMessageDialog(null, "Number cannot be less than or equal to 0.");
                             } else {
                                 ann.setText(trackerConsole.addFood(foodName, foodCals));
+                                itemsRecord.setText(trackerConsole.report());
                             }
 
                         } else if (cmdList.getSelectedItem().equals(cmdActions[1])) { //COMBO BOX, Add Activity Selected
@@ -173,6 +207,7 @@ public class TrackerGUI {
                                 JOptionPane.showMessageDialog(null, "Number cannot be less than or equal to 0.");
                             } else {
                                 ann.setText(trackerConsole.addActivity(actName, actCals));
+                                itemsRecord.setText(trackerConsole.report());
                             }
                         }
 
@@ -185,6 +220,7 @@ public class TrackerGUI {
 
                             if (!trackerConsole.eat(foodName, servings).equals("The specified food does not exist.")) {
                                 ann.setText("Ate " + servings + " serving(s) of " + foodName);
+                                itemsRecord.setText(trackerConsole.report());
                             } else {
                                 int userChoice = JOptionPane.showConfirmDialog(null, "Do you want to add the specified food?", "Food Not Found", JOptionPane.YES_NO_OPTION);
 
@@ -196,6 +232,7 @@ public class TrackerGUI {
                                         JOptionPane.showMessageDialog(null, "Number cannot be less than or equal to 0.");
                                     } else {
                                         ann.setText(trackerConsole.addFood(foodName, newFoodCals));
+                                        itemsRecord.setText(trackerConsole.report());
                                     }
                                 }
                             }
@@ -206,6 +243,7 @@ public class TrackerGUI {
 
                             if (!trackerConsole.perform(actName, hours).equals("The specified activity does not exist.")) {
                                 ann.setText("Performed " + hours + " hours(s) of " + actName);
+                                itemsRecord.setText(trackerConsole.report());
                             } else {
                                 int userChoice = JOptionPane.showConfirmDialog(null, "Do you want to add the specified Activity?", "Activity Not Found", JOptionPane.YES_NO_OPTION);
 
@@ -217,12 +255,15 @@ public class TrackerGUI {
                                         JOptionPane.showMessageDialog(null, "Number cannot be less than or equal to 0.");
                                     } else {
                                         ann.setText(trackerConsole.addActivity(actName, newFoodCals));
+                                        itemsRecord.setText(trackerConsole.report());
                                     }
                                 }
                             }
                         }
                     }
                 } while (neg = false);
+
+                itemsRecord.setText(trackerConsole.report());
             }
         });
 
@@ -592,6 +633,21 @@ public class TrackerGUI {
                     calories.setFont(typedText);
                     calories.setForeground(Color.BLACK);
                 }
+            }
+        });
+
+        view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                items.setVisible(true);
+                items.setFocusable(false);
+                close.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        items.dispose();
+                    }
+                });
             }
         });
     }

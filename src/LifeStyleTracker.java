@@ -50,7 +50,7 @@ public class LifeStyleTracker {
         for(int i = 0; i < foods.size(); i++){
             if(foods.get(i).getFoodName().equals(n)){
 
-                totalCalConsumed -= foods.get(i).getFoodCalories();//REMOVES PREVIOUSLY CONSUMED CALORIES
+                double prev = foods.get(i).getFoodCalories();//REMOVES PREVIOUSLY CONSUMED CALORIES
 
                 foods.get(i).updateCalories(c);
                 message = "Updated Food " + foods.get(i).getFoodName() + " with " + foods.get(i).getFoodCalories() + " Kcal.";
@@ -71,6 +71,7 @@ public class LifeStyleTracker {
                         trackerFood.get(j)[2] = Double.toString(c);
                         trackerFood.get(j)[3] = Double.toString(x*c);
 
+                        totalCalConsumed -= prev;
                         totalCalConsumed += Double.parseDouble(trackerFood.get(j)[3]);
                     }
                 }
@@ -93,7 +94,7 @@ public class LifeStyleTracker {
         for(int i = 0; i < activities.size();i++){
             if(activities.get(i).getActivityName().equals(n)){
 
-                totalBurned -= activities.get(i).getCalorieCount(); //REMOVES PREVIOUSLY CONSUMED CALORIES
+                double prev = activities.get(i).getCalorieCount(); //REMOVES PREVIOUSLY CONSUMED CALORIES
 
                 //UPDATES ACTIVITY CALORIE TO NEW VALUE.
                 activities.get(i).updateCalories(c);
@@ -116,6 +117,7 @@ public class LifeStyleTracker {
                         trackerActivities.get(j)[2] = Double.toString(c);
                         trackerActivities.get(j)[3] = Double.toString(x*c);
 
+                        totalBurned -= prev;
                         totalBurned += Double.parseDouble(trackerActivities.get(j)[3]);
                     }
                 }
