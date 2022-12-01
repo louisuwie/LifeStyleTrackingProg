@@ -36,8 +36,8 @@ public class TrackerGUI {
          * methods cannot be called on the GUI such as Scanner.
 
          * Many of the methods in LifeStyleTracker has 'if(gui)' statements
-         * checks if the instance utilizes 'GUI', if not, it can use the initial
-         * code that simply requires the Terminal.
+         * checks if the object instance utilizes 'GUI', if not, it can use the initial
+         * code that simply requires the Terminal to run.
          */
 
         LifeStyleTracker trackerConsole = new LifeStyleTracker();
@@ -45,7 +45,16 @@ public class TrackerGUI {
 
         String[] cmdActions = {"Add Food", "Add Activity", "Eat Food", "Perform Activity"};
 
-        /** Creates the GUI, and its formats */
+        /** Creates the GUI.
+         *
+         * JFrames, JButtons, JLabels, JPanels, and
+         * other visual elements that the program uses.
+         */
+
+
+        Font typedText = new Font("Verdana", Font.PLAIN, 12);
+        Font hintText = new Font("Verdana", Font.ITALIC, 12);
+        Font uiText = new Font("Helvetica", Font.PLAIN, 14);
 
         JFrame ui = new JFrame();
         JButton cmd = new JButton();
@@ -66,6 +75,8 @@ public class TrackerGUI {
         ui.setLayout(new FlowLayout());
         ui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        ui.setFocusable(true);
+
         cmd.setText("Record");
         cmd.setSize(100, 100);
 
@@ -73,8 +84,14 @@ public class TrackerGUI {
 
         edit.setText("Edit Contents");
 
-        name.setText("Name");
-        calories.setText("000");
+        name.setText("Enter Item Name");
+        name.setFont(hintText);
+        name.setForeground(Color.LIGHT_GRAY);
+
+        calories.setText("Enter Calories");
+        calories.setFont(hintText);
+        calories.setForeground(Color.LIGHT_GRAY);
+
         text1.setText("Add Food");
         text2.setText("Calories Involved");
 
@@ -255,7 +272,7 @@ public class TrackerGUI {
 
                     input.setBorder(margins);
 
-                    tracker.setFont(new Font("Arial", Font.PLAIN,14 ));
+                    tracker.setFont(uiText);
                     tracker.setText(trackerConsole.viewTracker("a"));
 
                     edit.setSize(550,600);
@@ -349,7 +366,7 @@ public class TrackerGUI {
 
                     input.setBorder(margins);
 
-                    tracker.setFont(new Font("Arial", Font.PLAIN,14 ));
+                    tracker.setFont(uiText);
                     tracker.setText(trackerConsole.viewTracker("b"));
 
                     edit.setSize(550,500);
@@ -456,7 +473,8 @@ public class TrackerGUI {
          * checks what the user is utilizing
          * and appropriately changes the JLabel 'ann'
          * for the user to see what they should input
-         * inside the text-fields.
+         * inside the text-fields. Also clears any
+         * previous inputs made in text-fields.
          */
 
         cmdList.addActionListener(new ActionListener() {
@@ -466,46 +484,111 @@ public class TrackerGUI {
                 if (cmdList.getSelectedItem().equals(cmdActions[0])) {
                     text1.setText("Add Food");
                     text2.setText("Calories Involved");
-                    name.setText("");
-                    calories.setText("");
+                    name.setText("Enter Item Name");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+
+                    calories.setText("Enter Calories");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
+
                 } else if (cmdList.getSelectedItem().equals(cmdActions[1])) {
                     text1.setText("Add Activity");
                     text2.setText("Calories Involved");
-                    name.setText("");
-                    calories.setText("");
+                    name.setText("Enter Item Name");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+
+                    calories.setText("Enter Calories");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
                 } else if (cmdList.getSelectedItem().equals(cmdActions[2])) {
                     text1.setText("Food Name");
                     text2.setText("Servings");
-                    name.setText("");
-                    calories.setText("");
+                    name.setText("Enter Item Name");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+
+                    calories.setText("Enter Calories");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
                 } else if (cmdList.getSelectedItem().equals(cmdActions[3])) {
                     text1.setText("Activity Name");
                     text2.setText("Hours");
-                    name.setText("");
-                    calories.setText("");
+                    name.setText("Enter Item Name");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+
+                    calories.setText("Enter Calories");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
                 }
             }
         });
 
         /**
-         * The following mouse listeners clears the text-field of the JFrame 'ui'
-         * It removes the static text for the user to type-in the prompted
-         * values for the program to utilize.
+         * The following focus listeners is activated once the
+         * user clicks on the Text fields. These focus listeners
+         * are for the hint-text for user inputs.
          */
 
-        name.addMouseListener(new MouseAdapter() {
+        name.addFocusListener(new FocusAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                name.setText("");
+            public void focusGained(FocusEvent e) {
 
+                while(name.getText().equals("Enter Item Name")){
+                    name.setText("");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+                    ui.setFocusable(true);
+                }
+                name.setFont(typedText);
+                name.setForeground(Color.BLACK);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(name.getText().equals("Enter Item Name") || name.getText().length() == 0){
+                    name.setText("Enter Item Name");
+                    name.setFont(hintText);
+                    name.setForeground(Color.LIGHT_GRAY);
+                    ui.setFocusable(true);
+                }
+                else{
+                    name.setText(name.getText());
+                    name.setFont(typedText);
+                    name.setForeground(Color.BLACK);
+                }
             }
         });
-        calories.addMouseListener(new MouseAdapter() {
+
+        calories.addFocusListener(new FocusAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                calories.setText("");
+            public void focusGained(FocusEvent e) {
+
+                while(calories.getText().equals("Enter Calories")){
+                    calories.setText("");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
+                    ui.setFocusable(true);
+                }
+                calories.setFont(typedText);
+                calories.setForeground(Color.BLACK);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(calories.getText().equals("Enter Calories") || calories.getText().length() == 0){
+                    calories.setText("Enter Calories");
+                    calories.setFont(hintText);
+                    calories.setForeground(Color.LIGHT_GRAY);
+                    ui.setFocusable(true);
+                }
+                else{
+                    calories.setText(calories.getText());
+                    calories.setFont(typedText);
+                    calories.setForeground(Color.BLACK);
+                }
             }
         });
     }
@@ -514,6 +597,9 @@ public class TrackerGUI {
     /*
         Curricular Linux Environment at Rice (n.d) Setting the Behavior When Closing a JFrame.
         Retrieved From https://www.clear.rice.edu/comp310/JavaResources/frame_close.html
+
+        How2Java (n.d) How to Create a Simple HintTextField in Java.
+        Retrieved from http://javaswingcomponents.blogspot.com/2012/05/how-to-create-simple-hinttextfield-in.html
 
         Pankaj (August 4,2022) Java String to Double.
         Retrieved From https://www.digitalocean.com/community/tutorials/java-convert-string-to-double. Line 240-271
