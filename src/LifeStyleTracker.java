@@ -49,9 +49,31 @@ public class LifeStyleTracker {
 
         for(int i = 0; i < foods.size(); i++){
             if(foods.get(i).getFoodName().equals(n)){
+
+                totalCalConsumed -= foods.get(i).getFoodCalories();//REMOVES PREVIOUSLY CONSUMED CALORIES
+
                 foods.get(i).updateCalories(c);
                 message = "Updated Food " + foods.get(i).getFoodName() + " with " + foods.get(i).getFoodCalories() + " Kcal.";
                 foundFood = true;
+
+                    /*
+                        0 = NAME
+                        1 = SERVINGS
+                        2 = CALORIES OF THE FOOD
+                        3 = TOTAL (SERVINGS * CALORIES OF FOOD)
+                    */
+
+                for(int j = 0; j < trackerFood.size(); j++){
+                    if(trackerFood.get(j)[0].equals(n)){
+
+                        double x = Double.parseDouble(trackerFood.get(j)[1]);
+
+                        trackerFood.get(j)[2] = Double.toString(c);
+                        trackerFood.get(j)[3] = Double.toString(x*c);
+
+                        totalCalConsumed += Double.parseDouble(trackerFood.get(j)[3]);
+                    }
+                }
             }
         }
 
@@ -70,10 +92,33 @@ public class LifeStyleTracker {
 
         for(int i = 0; i < activities.size();i++){
             if(activities.get(i).getActivityName().equals(n)){
-                activities.get(i).updateCalories(c);
 
+                totalBurned -= activities.get(i).getCalorieCount(); //REMOVES PREVIOUSLY CONSUMED CALORIES
+
+                //UPDATES ACTIVITY CALORIE TO NEW VALUE.
+                activities.get(i).updateCalories(c);
                 message = "Updated Activity " + activities.get(i).getActivityName() + " with " + activities.get(i).getCalorieCount() + " Kcal.";
                 foundActivity = true;
+
+                    /*
+                        0 = NAME
+                        1 = SERVINGS
+                        2 = CALORIES OF THE FOOD
+                        3 = TOTAL (SERVINGS * CALORIES OF FOOD)
+                    */
+
+                //UPDATES PREVIOUSLY EATEN FOOD'S CALORIC VALUE.
+                for(int j = 0; j < trackerActivities.size(); j++){
+                    if(trackerActivities.get(j)[0].equals(n)){
+
+                        double x = Double.parseDouble(trackerActivities.get(j)[1]);
+
+                        trackerActivities.get(j)[2] = Double.toString(c);
+                        trackerActivities.get(j)[3] = Double.toString(x*c);
+
+                        totalBurned += Double.parseDouble(trackerActivities.get(j)[3]);
+                    }
+                }
             }
         }
 
@@ -342,7 +387,6 @@ public class LifeStyleTracker {
         String message = "";
         //DISPLAYS THE LIST FOR FOOD
         if(!gui){
-
             if (a.equals("A")) {
                 if (trackerFood.size() > 0) {
                     for (int i = 0; i < trackerFood.size(); i++) {

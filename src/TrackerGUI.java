@@ -509,7 +509,7 @@ public class TrackerGUI {
                     name.setFont(hintText);
                     name.setForeground(Color.LIGHT_GRAY);
 
-                    calories.setText("Enter Calories");
+                    calories.setText("Enter Servings");
                     calories.setFont(hintText);
                     calories.setForeground(Color.LIGHT_GRAY);
                 } else if (cmdList.getSelectedItem().equals(cmdActions[3])) {
@@ -519,7 +519,7 @@ public class TrackerGUI {
                     name.setFont(hintText);
                     name.setForeground(Color.LIGHT_GRAY);
 
-                    calories.setText("Enter Calories");
+                    calories.setText("Enter Hours");
                     calories.setFont(hintText);
                     calories.setForeground(Color.LIGHT_GRAY);
                 }
@@ -566,7 +566,7 @@ public class TrackerGUI {
             @Override
             public void focusGained(FocusEvent e) {
 
-                while(calories.getText().equals("Enter Calories")){
+                while(calories.getText().equals("Enter Calories") || calories.getText().equals("Enter Hours") || calories.getText().equals("Enter Servings")){
                     calories.setText("");
                     calories.setFont(hintText);
                     calories.setForeground(Color.LIGHT_GRAY);
@@ -578,11 +578,14 @@ public class TrackerGUI {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if(calories.getText().equals("Enter Calories") || calories.getText().length() == 0){
+                if(calories.getText().equals("Enter Calories")|| calories.getText().equals("Enter Hours")
+                        || calories.getText().equals("Enter Servings") || calories.getText().length() == 0){
+
                     calories.setText("Enter Calories");
                     calories.setFont(hintText);
                     calories.setForeground(Color.LIGHT_GRAY);
                     ui.setFocusable(true);
+
                 }
                 else{
                     calories.setText(calories.getText());
