@@ -31,6 +31,12 @@ public class LifeStyleTracker {
     private double totalBurned;
     private boolean gui;
 
+    /**
+     * Constructor of the LifeStyleTracker.Java,
+     * Initializes the required values / variables
+     * to be used throughout the program.
+     */
+
     public LifeStyleTracker(){
         foods = new ArrayList<Food>();
         activities = new ArrayList<Activity>();
@@ -41,6 +47,15 @@ public class LifeStyleTracker {
         gui = false;
     }
 
+    /**
+     * addFood method is used to add food from the user
+     * inputs and is added to the array of food that can
+     * be eaten, this takes into account the name and
+     * calories of the specified food.
+     * @param n a String that contains the name of the food passed into the method
+     * @param c a double that contains the caloric intake of that specific food
+     * @return a message that informs the user what has been added and its required details.
+     */
     public String addFood(String n, double c){
 
         String message = "";
@@ -85,6 +100,14 @@ public class LifeStyleTracker {
         return message;
     }
 
+
+    /**
+     * addActivity method works similarly with addFood, but
+     * it focuses on handling activity-related inputs.
+     * @param n a String that contains the name of the activity passed into the method
+     * @param c a double that contains the calories burned by that specific activity
+     * @return a message that informs the user what has been added and its required details.
+     */
     public String addActivity(String n, double c){
 
         String message = "";
@@ -131,6 +154,17 @@ public class LifeStyleTracker {
         return message;
     }
 
+    /**
+     * eat method is used when the user utilizes the
+     * 'Food' input or if(gui), the Eat Food from the drop-down list.
+     *
+     * It automatically checks if the food is not yet in the food list,
+     * and provides the user the ability to add the food before recording.
+     *
+     * @param foodName a String that used to check if the food is available,
+     * @param servings a double that is used to calculate the caloric intake. servings * initial caloric value.
+     * @return a message that tells the user what has been eaten, its initial caloric value, and its total calorie taken.
+     */
     public String eat(String foodName, double servings) {
 
         String message = "";
@@ -201,6 +235,19 @@ public class LifeStyleTracker {
         return message;
     }
 
+    /**
+     * perform method works similarly with the eat method.
+     *
+     * It checks if the activity the user wants to perform is already added
+     * to the list, if not, it allows the user to add it- Then they are
+     * able to record it the next time around.
+     *
+     * If the activity is already listen in the array, it calculates the hours to the
+     * initial caloric burn of the specified activity. hours * calorie burn per hour.
+     * @param actName
+     * @param hours
+     * @return
+     */
     public String perform (String actName, double hours){
 
         String message = "";
@@ -268,6 +315,17 @@ public class LifeStyleTracker {
         return message;
     }
 
+    /**
+     * report method handles the printing of the tracker. It has access to
+     * the List for Food eaten, and Activity performed.
+     *
+     * It also updates every time a food or activity is
+     * added. And it is able to calculate for the total caloric intake
+     * and total calorie burned, all of these to be displayed
+     * for when the user desires to call this method.
+     *
+     * @return a message that prints all the details above.
+     */
     public String report(){
 
         String message = "";
@@ -384,6 +442,21 @@ public class LifeStyleTracker {
     ADD ONS ADD ONS ADD ONS #######################
      */
 
+    /**
+     * viewTracker is a method that is not directly called.
+     * It is used for the editing of servings of food, or hours
+     * of activities performed. This displays the record food and
+     * activity so that the user can choose which index and change.
+     *
+     * Sample print:
+     * "1) 2 serving(s) of Chicken, 202 Kcal."
+     *
+     * assuming that the user added a Chicken to the list,
+     * that has 101 Calories per serving.
+     *
+     * @param a String that is passed to the method, which dictates whether to view food or view activity.
+     * @return a list of food or activity to the user when the method is called.
+     */
     public String viewTracker(String a) {
 
         String message = "";
@@ -435,6 +508,19 @@ public class LifeStyleTracker {
     2 = CALORIES OF THE FOOD
     3 = TOTAL (SERVINGS * CALORIES OF FOOD)
     */
+
+    /**
+     * editFood handles the editing of servings of the food
+     * that the user specifies based on the index provided
+     * by the viewTracker method.
+     *
+     * A user the index, and the new serving of the food to
+     * initialize the editFood process.
+     *
+     * @param a an integer that contains the index of the food based on the viewTracker.
+     * @param b a double that the method uses to update the servings.
+     * @return a message that the servings of food is updated.
+     */
     public String editFood(int a, double b){
 
         int indexNum = a;
@@ -464,6 +550,19 @@ public class LifeStyleTracker {
         return message;
     }
 
+    /**
+     * editActivity is similar to the editFood, it handles
+     * the updating of hours performing that activity should the user
+     * have a wrong input or desires to change the time that they performed
+     * the activity.
+     *
+     * The user also inputs an index based on the viewTracker, and
+     * a double that changes the hours of performing the specified activity index.
+     *
+     * @param a an integer that is based from the viewTracker, which identifies the activity.
+     * @param b a double that is used to update the previous hours performed on an activity.
+     * @return a message that the hours performed of that activity has been updated.
+     */
     public String editActivity(int a, double b){
 
         int indexNum = a;
@@ -489,6 +588,14 @@ public class LifeStyleTracker {
         }
         return message;
     }
+
+    /**
+     * Tells the LifeStyleTracker.java that the object instance
+     * is using a GUI, not the terminal.
+     *
+     * @param a if the GUI is used, a boolean true value is passed to that specific instance.
+     * @return
+     */
     public boolean isGui(boolean a){
         return gui = a;
     }

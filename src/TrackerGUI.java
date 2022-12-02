@@ -26,11 +26,8 @@ import java.awt.event.*;
 
 public class TrackerGUI {
 
-    private String x;
-
+    private String x;//JOptionPane
     public TrackerGUI(String a) {
-
-
         /**
          * when GUI is entered in the console, it creates a new instance
          * but utilizes JavaSwing 'GUI'.
@@ -81,17 +78,17 @@ public class TrackerGUI {
 
         ui.setSize(600, 300);
         ui.setTitle("Welcome to " + a + "'s LifeStyle Tracker");
-        ui.setLayout(new GridLayout(2,1));
+        ui.setLayout(new GridLayout(3,1));
         ui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         ui.setFocusable(true);
 
-        cmd.setText("Record");
+        cmd.setText("Record Item");
         cmd.setSize(100, 100);
 
-        report.setText("Report");
+        report.setText("View Current Report");
 
-        view.setText("View Contents");
+        view.setText("View Live");
 
         edit.setText("Edit Contents");
 
@@ -106,7 +103,7 @@ public class TrackerGUI {
         text1.setText("Add Food");
         text2.setText("Calories Involved");
 
-        mainLayout.setLayout(new GridLayout(4, 2));
+        mainLayout.setLayout(new GridLayout(3, 2));
 
         mainLayout.add(text1);
         mainLayout.add(name);
@@ -115,16 +112,15 @@ public class TrackerGUI {
         mainLayout.add(calories);
 
         mainLayout.add(ann);
-        mainLayout.add(report);
+        mainLayout.add(cmd);
 
-        mainLayout.add(edit);
-        mainLayout.add(view);
-
-        buttonLayout.setLayout(new GridLayout(3, 1));
-        buttonLayout.add(cmd);
-        buttonLayout.add(cmdList);
+        buttonLayout.setLayout(new GridLayout(1, 3));
+        buttonLayout.add(report);
+        buttonLayout.add(view);
+        buttonLayout.add(edit);
 
         ui.add(mainLayout);
+        ui.add(cmdList);
         ui.add(buttonLayout);
         ui.setVisible(true);
         ui.setLocationRelativeTo(null);
@@ -285,8 +281,10 @@ public class TrackerGUI {
 
                 String[] options = {"Edit Food Eaten", "Edit Activity Performed"};
 
-                if(JOptionPane.showOptionDialog( null, "What do you want to edit?", "Confirmation",
-                        JOptionPane.WARNING_MESSAGE, 0,null, options, options[1]) == 0){
+                int question = JOptionPane.showOptionDialog( null, "What do you want to edit?", "Confirmation",
+                        JOptionPane.WARNING_MESSAGE, 0,null, options, options[1]);
+
+                if(question == 0){
 
                     /** creates the new 'edit' JFrame */
 
@@ -325,6 +323,8 @@ public class TrackerGUI {
 
                     edit.setVisible(true);
 
+                    itemsRecord.setText(trackerConsole.report());
+
                     /**
                      * This 'confirm' Action Listener is the button that activates
                      * the edit feature of TrackerGUI.java
@@ -358,6 +358,8 @@ public class TrackerGUI {
                                    ann.setText(trackerConsole.editFood(index,change));
 
                                    ui.setVisible(true);
+
+                                   itemsRecord.setText(trackerConsole.report());
                                }
                             }
                             while(neg = false);
@@ -377,7 +379,7 @@ public class TrackerGUI {
                         }
                     });
                 }
-                else{
+                else if(question == 1){
                     JFrame edit = new JFrame();
                     JLabel tracker = new JLabel();
                     JTextField editComp = new JTextField(10);
@@ -393,12 +395,6 @@ public class TrackerGUI {
 
                     editComp.setSize(150,20);
                     newValue.setSize(150,20);
-
-                    /**
-                     * TODO:
-                     * CENTER THIS LABEL
-                     */
-
 
                     label.add(tracker);
                     input.add(editComp);
@@ -444,6 +440,8 @@ public class TrackerGUI {
                                     ann.setText(trackerConsole.editActivity(index, change));
 
                                     ui.setVisible(true);
+
+                                    itemsRecord.setText(trackerConsole.report());
                                 }
                             }
                             while(neg = false);
@@ -460,8 +458,12 @@ public class TrackerGUI {
                         public void windowClosing(WindowEvent e) {
                             JOptionPane.showMessageDialog(null,"Transaction Cancelled");
                             ui.setVisible(true);
+                            itemsRecord.setText(trackerConsole.report());
                         }
                     });
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Transaction Cancelled");
                 }
             }
         });
@@ -498,11 +500,13 @@ public class TrackerGUI {
                     @Override
                     public void windowOpened(WindowEvent e) {
                         ui.setVisible(false);
+                        view.setVisible(false);
                     }
 
                     @Override
                     public void windowClosing(WindowEvent e) {
                         ui.setVisible(true);
+                        view.setVisible(true);
 
                     }
                 });
