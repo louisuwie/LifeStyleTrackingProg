@@ -599,6 +599,4 @@ public class LifeStyleTracker {
     public boolean isGui(boolean a){
         return gui = a;
     }
-
-
 }
